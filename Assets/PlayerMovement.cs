@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         pos.z = Mathf.Clamp(pos.z,
             Terrain.activeTerrain.transform.position.z + transform.lossyScale.x / 2,
             Terrain.activeTerrain.transform.position.z + Terrain.activeTerrain.terrainData.size.z - transform.lossyScale.x / 2);
-        pos.y = .5f + Terrain.activeTerrain.SampleHeight(pos);
-
+        pos.y = .5f + Mathf.Max(0, Terrain.activeTerrain.SampleHeight(pos) + Terrain.activeTerrain.transform.position.y);
+        
         transform.position = pos;
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TerrainCreation : MonoBehaviour
 {
+    public float underwaterPortion = .33f;
+    public float altitude;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +33,9 @@ public class TerrainCreation : MonoBehaviour
 
 
         data.SetHeights(0, 0, heights);
+        Vector3 pos = transform.position;
+        pos.y = altitude * data.size.y;
+        transform.position = pos;
     }
 
     private void InitSquare(ref float[,] data, int r, float sigma)
@@ -136,11 +142,27 @@ public class TerrainCreation : MonoBehaviour
             }
         }
 
+        int resolution = 1000;
+        int[] hist = new int[resolution+1];
         for (int y = 0; y <= r; y++)
         {
             for (int x = 0; x <= r; x++)
             {
                 data[y, x] = (data[y, x] - min) / (max - min);
+
+                int v = (int)(data[y, x] * resolution);
+                hist[v]++;
+            }
+        }
+
+        int sum = 0;
+        for (int i = 0; i < resolution; i++)
+        {
+            sum += hist[i];
+            if (sum > underwaterPortion * data.Length)
+            {
+                altitude = -(float)i / resolution;
+                break;
             }
         }
     }
