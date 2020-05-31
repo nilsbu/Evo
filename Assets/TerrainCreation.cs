@@ -135,7 +135,7 @@ public class TerrainCreation : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"{min} - {max}");
+
         for (int y = 0; y <= r; y++)
         {
             for (int x = 0; x <= r; x++)
@@ -143,23 +143,6 @@ public class TerrainCreation : MonoBehaviour
                 data[y, x] = (data[y, x] - min) / (max - min);
             }
         }
-        min = float.MaxValue;
-        max = -float.MaxValue;
-        for (int y = 0; y <= r; y++)
-        {
-            for (int x = 0; x <= r; x++)
-            {
-                if (min > data[y, x])
-                {
-                    min = data[y, x];
-                }
-                if (max < data[y, x])
-                {
-                    max = data[y, x];
-                }
-            }
-        }
-        Debug.Log($"{min} - {max}");
     }
 
 

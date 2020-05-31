@@ -5,34 +5,41 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-    public float movementSpeed = 1000f;
+    CharacterController characterController;
+    private Vector3 moveDirection = Vector3.zero;
+
+    public float speed = 6f;
+    public float shiftSpeed = 60f;
 
     // Start is called before the first frame update
     void Start()
     {
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey("d"))
+        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            rb.AddForce(movementSpeed * Time.deltaTime, 0, 0);
+            moveDirection *= shiftSpeed;
         }
-        if (Input.GetKey("a"))
+        else
         {
-            rb.AddForce(-movementSpeed * Time.deltaTime, 0, 0);
+            moveDirection *= speed;
         }
-        if (Input.GetKey("w"))
-        {
-            rb.AddForce(1, 0, movementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey("s"))
-        {
-            rb.AddForce(1, 0, -movementSpeed * Time.deltaTime);
-        }
+        characterController.Move(moveDirection * Time.deltaTime);
+
         Vector3 pos = transform.position;
-        pos.y = .5f + Terrain.activeTerrain.SampleHeight(transform.position);
+        pos.x = Mathf.Clamp(pos.x,
+            Terrain.activeTerrain.transform.position.x + transform.lossyScale.x / 2,
+            Terrain.activeTerrain.transform.position.x + Terrain.activeTerrain.terrainData.size.x - transform.lossyScale.x / 2);
+        pos.z = Mathf.Clamp(pos.z,
+            Terrain.activeTerrain.transform.position.z + transform.lossyScale.x / 2,
+            Terrain.activeTerrain.transform.position.z + Terrain.activeTerrain.terrainData.size.z - transform.lossyScale.x / 2);
+        pos.y = .5f + Terrain.activeTerrain.SampleHeight(pos);
+
         transform.position = pos;
     }
 }
