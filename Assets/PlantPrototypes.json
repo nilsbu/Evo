@@ -1,0 +1,30 @@
+﻿{
+    "prototypes": [
+        {
+            "color": {
+                "r": 0.07843137,
+                "g": 0.7254902,
+                "b": 0.1575574
+            },
+            "initialHeightMean": ".2",
+            "initialHeightStdev": ".03",
+            "minHeight": ".03",
+            "maxHeight": "1.",
+            "radius": ".1",
+            "growthRate":  ".1"
+        },
+        {
+            "color": {
+                "r": 0.7843137,
+                "g": 0.07254902,
+                "b": 0.1575574
+            },
+            "initialHeightMean": ".2",
+            "initialHeightStdev": ".03",
+            "minHeight": ".03",
+            "maxHeight": ".5",
+            "radius": ".3",
+            "growthRate": ".1"
+        }
+    ]
+}
