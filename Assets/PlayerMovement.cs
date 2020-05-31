@@ -31,5 +31,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(1, 0, -movementSpeed * Time.deltaTime);
         }
+        Vector3 pos = transform.position;
+        pos.y = .5f + Terrain.activeTerrain.SampleHeight(transform.position);
+        transform.position = pos;
     }
 }

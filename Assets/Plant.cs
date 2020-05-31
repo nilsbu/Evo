@@ -37,7 +37,7 @@ public class Plant
         PlantPrototype pt = prototypes.prototypes[prototypeIdx];
         plant.color = pt.color;
         plant.height = Mathf.Clamp(
-            nextGaussian(pt.initialHeightMean, pt.initialHeightStdev),
+            NormalDistribution.Rand(pt.initialHeightMean, pt.initialHeightStdev),
             pt.minHeight, pt.maxHeight);
         plant.minHeight = pt.minHeight;
         plant.maxHeight = pt.maxHeight;
@@ -55,16 +55,5 @@ public class Plant
         reader.Close();
 
         return JsonUtility.FromJson<PlantPrototypes>(str);
-    }
-
-    private static float nextGaussian(float mean, float sigma)
-    {
-        Random rand = new Random(); //reuse this if you are generating many
-        float u1 = 1.0f - Random.Range(0f, 1f);
-        float u2 = 1.0f - Random.Range(0f, 1f);
-        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
-                     Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
-        float randNormal = mean + sigma * randStdNormal; //random normal(mean,stdDev^2)
-        return randNormal;
     }
 }
